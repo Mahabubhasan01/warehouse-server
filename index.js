@@ -22,13 +22,22 @@ async function run() {
     try{
         await client.connect();
         const productsCollection = client.db('ecoHub').collection('products');
+        const allProductCollection = client.db('ecoHub').collection('totalProduct');
 
         // Product api 
 
         app.get('/products',async(req,res) => {
             const cursor = productsCollection.find({});
             const products = await cursor.toArray();
-            res.send('this is');
+            res.send(products);
+        });
+
+        // All Product
+
+        app.get('/totalProduct',async(req,res) => {
+            const cursor = allProductCollection.find({});
+            const allProduct = await cursor.toArray();
+            res.send(allProduct);
         })
     }
     finally{
