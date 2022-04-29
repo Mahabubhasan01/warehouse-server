@@ -21,7 +21,15 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try{
         await client.connect();
-        
+        const productsCollection = client.db('ecoHub').collection('products');
+
+        // Product api 
+
+        app.get('/products',async(req,res) => {
+            const cursor = productsCollection.find({});
+            const products = await cursor.toArray();
+            res.send('this is');
+        })
     }
     finally{
 
