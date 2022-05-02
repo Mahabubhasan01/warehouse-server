@@ -21,12 +21,13 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try{
         await client.connect();
-        const productsCollection = client.db('ecoHub').collection('products');
+        const productsCollection = client.db('ecoHub').collection('product');
         const allProductCollection = client.db('ecoHub').collection('totalProduct');
+        const contactInfo = client.db('ecoHub').collection('contact');
 
         // Product api 
 
-        app.get('/products',async(req,res) => {
+        app.get('/product',async(req,res) => {
             const cursor = productsCollection.find({});
             const products = await cursor.toArray();
             res.send(products);
@@ -45,7 +46,14 @@ async function run() {
             const cursor = allProductCollection.find({});
             const allProduct = await cursor.toArray();
             res.send(allProduct);
+        });
+        //  contact
+        app.post('/contact',async(req,res) =>{
+            const singleInfo = req.body;
+            const addInfo = await contactInfo.insertOne(singleInfo);
+            res.send(addInfo)
         })
+
 
         
     }
