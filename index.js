@@ -55,6 +55,15 @@ async function run() {
             const addProduct = await productsCollection.insertOne(newProduct);
             res.send(addProduct);
         })
+
+        // delete from database on product
+        app.delete('/product/:id',async(req,res) => {
+            const id = req.params.id;
+            const query = {_id:ObjectId(id)};
+            const deleteProduct = await productsCollection.deleteOne(query);
+            res.send(deleteProduct);
+        }) 
+
         
         //  contact
         app.post('/contact',async(req,res) =>{
