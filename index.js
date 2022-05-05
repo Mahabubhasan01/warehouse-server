@@ -24,6 +24,7 @@ async function run() {
         const productsCollection = client.db('ecoHub').collection('product');
         const allProductCollection = client.db('ecoHub').collection('totalProduct');
         const contactInfo = client.db('ecoHub').collection('contact');
+        const myItemsCollection = client.db('ecoHub').collection('myItems')
 
         // Product api 
 
@@ -54,6 +55,28 @@ async function run() {
             const newProduct = req.body;
             const addProduct = await productsCollection.insertOne(newProduct);
             res.send(addProduct);
+        });
+
+        // update or stock in single product 
+        app.put('/product/:id',async(req,res) =>{
+            const id = req.params.id;
+            const updateProduct = req.body;
+            const filter = {_id:ObjectId(id)};
+            const option = {upsert:true};
+            const productDoc ={
+                $set:{
+                    quantity:updateProduct.quantity,
+                },
+            };
+            const result = await productsCollection.updateOne(filter,option,productDoc);
+            res.send(result);
+        });
+
+        // single order info
+        app.post('/myItems',async(req,res)=>{
+            const myItems = req.body;
+            const addMyItems = await myItemsCollection.insertOne(myItems);
+            res.send(addMyItems)
         })
 
         // delete from database on product
