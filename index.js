@@ -56,6 +56,11 @@ async function run() {
             const addProduct = await productsCollection.insertOne(newProduct);
             res.send(addProduct);
         });
+        app.get('/myItems',async(req,res) =>{
+            const cursor = myItemsCollection.find({});
+            const addItems = await cursor.toArray();
+            res.send(addItems);
+        });
 
         // update or stock in single product 
         app.put('/product/:id',async(req,res) =>{
@@ -77,6 +82,13 @@ async function run() {
             const myItems = req.body;
             const addMyItems = await myItemsCollection.insertOne(myItems);
             res.send(addMyItems)
+        });
+
+        // show my item 
+        app.get('/myItems/:id',async(req,res) => {
+            const idWithQuery = {_id:ObjectId(req.params.id)};
+            const myItem = await myItemsCollection.findOne(idWithQuery);
+            res.send(myItem)
         })
 
         // delete from database on product
