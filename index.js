@@ -9,9 +9,6 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());           
 
-// EcoHub
-// dKoHkpONM8nJUd8s
-
 
 
 
@@ -48,7 +45,7 @@ async function run() {
             if(email){
                 query = {email:email}
             }
-            const cursor = productsCollection.find(query)
+            const cursor = productsCollection.filter(query)
             const singleP = await cursor.toArray() ;
             res.send(singleP)
         })
