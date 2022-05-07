@@ -41,6 +41,17 @@ async function run() {
             const product = await productsCollection.findOne(idWithQuery);
             res.send(product)
         })
+
+        app.get('/product',async(req,res) =>{
+            let query = {};
+            const email = req.query.email
+            if(email){
+                query = {email:email}
+            }
+            const cursor = productsCollection.find(query)
+            const singleP = await cursor.toArray() ;
+            res.send(singleP)
+        })
         // All Product
 
         app.get('/totalProduct',async(req,res) => {
