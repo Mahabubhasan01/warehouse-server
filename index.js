@@ -45,7 +45,7 @@ async function run() {
             if(email){
                 query = {email:email}
             }
-            const cursor = productsCollection.filter(query)
+            const cursor = productsCollection.find(query)
             const singleP = await cursor.toArray() ;
             res.send(singleP)
         })
